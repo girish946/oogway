@@ -7,7 +7,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4.QtWebKit import QWebView
-
+from siteListManager import SiteListManager
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -150,7 +150,16 @@ class Ui_Oogway_MainWindow(QtGui.QMainWindow):
 
     def addSite(self):
 
-        print "addSiteClicked"
+        #print "addSiteClicked"
+        site, domainOk = QInputDialog.getText(self, 'Domain Name', 'Enter Domainname:')
+        if domainOk:
+            #print site , type(site)
+            link, linkOk = QInputDialog.getText(self, "RSS Link", "Enter the Link for Rss feed")
+            if linkOk:
+                #print link, type(link)
+                slm = SiteListManager()
+                slm.addSite(domain = str(site), rssLink = str(link))
+            
 
     def removeSite(self):
 
