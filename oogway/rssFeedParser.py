@@ -29,11 +29,16 @@ class FeedParser(object):
 
             return ''
 
-if __name__ == '__main__':
+    def getCompleteFeed(self):
 
-    parser = FeedParser()
-    #print parser.getRssFeedOf('thehackernews.com')
-    thn = parser.getRssFeedOf('thehackernews.com')
-    #print thn.entries[0]['summary_detail']['value']
-    print thn.entries[0]['summary']
+        self.feed = {}
+        for i in self.sites:
+
+            self.feed[i] = []
+            entries = self.getRssFeedOf(i).entries
+            for j in entries:
+                self.feed[i].append((j.title, j.link,))
+
+        return self.feed
+
 

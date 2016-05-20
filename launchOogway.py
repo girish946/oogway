@@ -17,28 +17,12 @@ __author__ =  'girish946'
 if __name__ == '__main__':
 
     allFeeds = FeedParser()
-    count = 0
-    feed = {}
-    for i in allFeeds.sites:
-        feed[i] = []
-        entries = allFeeds.getRssFeedOf(i).entries
-        for j in entries:
-
-            #print j.title
-            #print j.link
-            count+=1
-            feed[i].append((j.title, j.link,))
-
-    
-
-    #print feed
-    #print count
 
     app = QApplication(sys.argv)
     if len(sys.argv) > 1:
-        Dlg = OogwayWindow(sys.argv[1], feed = feed)
+        Dlg = OogwayWindow(sys.argv[1], feed = allFeeds.getCompleteFeed())
     else:
-        Dlg = OogwayWindow(feed = feed)
+        Dlg = OogwayWindow(feed = allFeeds.getCompleteFeed())
     Dlg.show()
     app.exec_()
 

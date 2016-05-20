@@ -3,11 +3,13 @@
 
 import sys
 
+from rssFeedParser import FeedParser
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4.QtWebKit import QWebView
 from siteListManager import SiteListManager
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -105,22 +107,8 @@ class Ui_Oogway_MainWindow(QtGui.QMainWindow):
         self.horizontalLayout.addWidget(self.listWidget_2)
         self.dockWidget_2.setWidget(self.dockWidgetContents_4)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.dockWidget_2)
-
-
-        self.widgetItems = []
-        self.linkItems = []
-
-        for i in self.feed:
-
-            item = QListWidgetItem(i)
-            self.listWidget.addItem(item)
-
-            for j in self.feed[i]:
-               self.widgetItems.append(j[0])
-               self.linkItems.append(j[1])
-
-        self.listWidget_2.addItems(self.widgetItems)
-
+        
+        self.loadRssFeed()
         self.listWidget.doubleClicked.connect(self.setLinks)
         self.listWidget_2.doubleClicked.connect(self.openLink)
         
@@ -159,9 +147,32 @@ class Ui_Oogway_MainWindow(QtGui.QMainWindow):
                 #print link, type(link)
                 slm = SiteListManager()
                 slm.addSite(domain = str(site), rssLink = str(link))
-            
+                fp = FeedParser()
+                self.feed = fp.getCompleteFeed()
+                self.loadRssFeed()
 
     def removeSite(self):
 
         print "removeSiteClicked"
 
+    def loadRssFeed(self):
+ 
+        self.widgetItems = []
+        self.linkItems = []
+
+        self.listWidget.clear()
+        self.listWidget_2.clear()
+
+
+        for i in self.feed:
+
+            item = QListWidgetItem(i)
+            self.listWidget.addItem(item)
+
+            for j in self.feed[i]:
+               self.widgetItems.append(j[0])
+               self.linkItems.append(j[1])
+
+        self.listWidget_2.addItems(self.widgetItems)
+
+       
