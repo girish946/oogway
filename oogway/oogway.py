@@ -154,6 +154,13 @@ class Ui_Oogway_MainWindow(QtGui.QMainWindow):
     def removeSite(self):
 
         print "removeSiteClicked"
+        print self.listWidget.currentItem().text()
+        slm = SiteListManager()
+        slm.removeSite(str(self.listWidget.currentItem().text()))
+        fp = FeedParser()
+        self.feed = fp.getCompleteFeed()
+        self.loadRssFeed()
+
 
     def loadRssFeed(self):
  
